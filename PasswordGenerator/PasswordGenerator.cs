@@ -15,10 +15,14 @@ namespace PasswordGeneratorApp
         public PasswordGenerator()
         {
             _random = new Random();
+
             _passwordBuilder = new StringBuilder();
+
             _charSetBuilder = new StringBuilder();
 
         }
+
+        private string _validCharacters = string.Empty;
         public int Length { get; set; }
         public bool IncludeLowercase { get; set; } = true;
         public bool IncludeUppercase { get; set; } = true;
@@ -26,18 +30,24 @@ namespace PasswordGeneratorApp
         public bool IncludeSpecial { get; set; } = true;
 
         private readonly string _lowercase = "abcdefghijklmnopqrstuvwxyz";
+
         private readonly string _uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         private readonly string _numbers = "0123456789";
+
         private readonly string _specials = "!@#$%^&*()_+";
+
 
         public string Generate()
         {
             _passwordBuilder.Clear();
-            string newChars = SetCharBuilder();
+            _validCharacters = SetCharBuilder();
 
             for (int i = 0; i < Length; i++)
             {
-                _passwordBuilder.Append(newChars[_random.Next(0, newChars.Length)]);
+                var randomIndex = _random.Next(0, _validCharacters.Length);
+
+                _passwordBuilder.Append(_validCharacters[randomIndex]);
             }
 
             return _passwordBuilder.ToString();
@@ -46,8 +56,11 @@ namespace PasswordGeneratorApp
         private string SetCharBuilder()
         {
             if (IncludeLowercase) _charSetBuilder.Append(_lowercase);
+
             if (IncludeUppercase) _charSetBuilder.Append(_uppercase);
+
             if (IncludeNumbers) _charSetBuilder.Append(_numbers);
+
             if (IncludeSpecial) _charSetBuilder.Append(_specials);
             
             return _charSetBuilder.ToString();

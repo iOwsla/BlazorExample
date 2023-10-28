@@ -2,8 +2,41 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            Count: @_count
+        </div>
+        <button @onclick=IncrementCount>Artır</button>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+        <form>
+            <div>
+                <label>@_textValue</label>
+                <input type="text" @bind="_textValue" @bind:event="oninput" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@code
+{
+    int _count = 0;
+
+    string _textValue = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _count = 0;
+        _textValue = string.Empty;
+    }
+
+    private void IncrementCount()
+    {
+        _count++;
+    }
+
+
+}
